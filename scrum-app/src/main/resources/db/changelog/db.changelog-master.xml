@@ -11,7 +11,6 @@
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"/>
-
         <comment>Create table with Kanaban info</comment>
     </changeSet>
 
@@ -20,7 +19,6 @@
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"/>
-
         <comment>Create table with task info</comment>
     </changeSet>
 
@@ -29,7 +27,6 @@
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"/>
-
         <comment>Add scrum_id column to task table</comment>
     </changeSet>
 
@@ -38,8 +35,23 @@
                  relativeToChangelogFile="true"
                  splitStatements="true"
                  stripComments="true"/>
-
         <comment>Add status column to task table</comment>
+    </changeSet>
+
+    <changeSet id="5" author="jane">
+        <sqlFile path="05_init_user.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"/>
+        <comment>Create table with user info</comment>
+    </changeSet>
+
+    <changeSet id="6" author="jane">
+        <sqlFile path="06_init_role.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"/>
+        <comment>Create table with role info</comment>
     </changeSet>
 
 </databaseChangeLog>
