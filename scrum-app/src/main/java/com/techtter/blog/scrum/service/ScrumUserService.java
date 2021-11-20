@@ -23,6 +23,6 @@ public interface ScrumUserService {
     ScrumUser updateScrumUser(ScrumUser oldScrumUser, ScrumUserDTO newScrumUserDTO);
 
     // verify user login
-    Boolean verifyUser(ScrumUserDTO queryUser);
+    ScrumUser verifyUser(ScrumUserDTO queryUser);
 
 }

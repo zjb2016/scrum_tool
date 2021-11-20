@@ -6,6 +6,7 @@ import com.techtter.blog.scrum.repository.ScrumUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +59,18 @@ public class ScrumUserServiceImpl implements ScrumUserService {
     }
 
     @Override
-    public Boolean verifyUser(ScrumUserDTO queryUser) {
+    public ScrumUser verifyUser(ScrumUserDTO queryUser) {
+        ScrumUser user;
         String queryPhone = queryUser.getPhone();
-        Optional<ScrumUser> user = scrumUserRepository.findByPhone(queryPhone);
-        if(user.isPresent())
-            return user.get().getUserPassword().equals(queryUser.getUserPassword())&&user.get().getUserName().equals(queryUser.getUserName());
-        return false;
+        Optional<ScrumUser> userobj = scrumUserRepository.findByPhone(queryPhone);
+        // 找不到直接抛出，返回http not found
+        Assert.isTrue(userobj.isPresent(),"can not find user!");
+
+        user = userobj.get();
+        // 密码错误抛出
+        Assert.state(user.getUserPassword().equals(queryUser.getUserPassword()), "error password");
+        user.setUserPassword("********");
+        return user;
     }
 
     private ScrumUser convertDTOToScrumUser(ScrumUserDTO scrumUserDTO){
