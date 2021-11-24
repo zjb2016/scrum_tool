@@ -1,13 +1,11 @@
 package com.techtter.blog.scrum.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.techtter.blog.scrum.model.User;
 import com.techtter.blog.scrum.model.UserDTO;
-import com.techtter.blog.scrum.service.ScrumUserService;
+import com.techtter.blog.scrum.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Time;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +25,13 @@ import java.util.Optional;
 @CrossOrigin(origins = {"http://localhost:9000","http://www.test.com"})
 public class UserController {
 
-    private final ScrumUserService scrumUserService;
+    private final UserService userService;
 
     @PostMapping("/register")
     @ApiOperation(value="register new user", response = User.class)
     public ResponseEntity<?> userRegister(@RequestBody UserDTO UserDTO){
         try {
-            User newuser = scrumUserService.saveNewScrumUser(UserDTO);
+            User newuser = userService.saveNewScrumUser(UserDTO);
             JSONObject obj = wrapUserJsonObj(newuser);
             obj.remove("token");
             obj.remove("failureTime");
@@ -49,7 +47,7 @@ public class UserController {
     @ApiOperation(value="login user")
     public ResponseEntity<?> userLogin(@RequestBody UserDTO UserDTO){
         try {
-            User user = scrumUserService.verifyUser(UserDTO);
+            User user = userService.verifyUser(UserDTO);
             JSONObject obj = wrapUserJsonObj(user);
             ResponseEntity<JSONObject> res = new ResponseEntity<>(obj, HttpStatus.OK);
             return res;
@@ -66,7 +64,7 @@ public class UserController {
         jsonObject.put("id", user.getId());
         jsonObject.put("userName", user.getUserName());
         jsonObject.put("phone", user.getPhone());
-        jsonObject.put("role", user.getRoleId());
+//        jsonObject.put("role", user.getRoleId());
         jsonObject.put("token", now.getTime());
         jsonObject.put("failureTime", now.getTime()/1000+24*3600);
         return  jsonObject;
@@ -74,12 +72,12 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ApiOperation(value="modify user info", response = User.class)
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO UserDTO){
+    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody UserDTO UserDTO){
         try {
             //find user by old id
-            Optional<User> optUser = scrumUserService.getScrumUserById(id);
+            Optional<User> optUser = userService.getScrumUserById(id);
             if(optUser.isPresent()){
-                return new ResponseEntity<>(scrumUserService.updateScrumUser(optUser.get(), UserDTO),
+                return new ResponseEntity<>(userService.updateScrumUser(optUser.get(), UserDTO),
                         HttpStatus.OK);
             }else {
                 return noUserFoundResponse(id);
@@ -91,11 +89,11 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value="delete user", response = String.class)
-    public ResponseEntity<?> userDeleteo(@PathVariable Long id){
+    public ResponseEntity<?> userDeleteo(@PathVariable int id){
         try {
-            Optional<User> optUser = scrumUserService.getScrumUserById(id);
+            Optional<User> optUser = userService.getScrumUserById(id);
             if (optUser.isPresent()) {
-                scrumUserService.deleteScrumUser(optUser.get());
+                userService.deleteScrumUser(optUser.get());
                 return new ResponseEntity<>(String.format("user with id: %d was deleted", id), HttpStatus.OK);
             } else {
                 return noUserFoundResponse(id);
@@ -105,7 +103,7 @@ public class UserController {
         }
     }
 
-    private ResponseEntity<?> noUserFoundResponse(Long id) {
+    private ResponseEntity<?> noUserFoundResponse(int id) {
         return new ResponseEntity<>("no user found with id: "+ id, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

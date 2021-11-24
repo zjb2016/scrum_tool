@@ -1,10 +1,8 @@
 package com.techtter.blog.scrum.controller;
 
 import com.techtter.blog.scrum.model.User;
-import com.techtter.blog.scrum.model.UserDTO;
 import com.techtter.blog.scrum.model.ScrumUserRole;
 import com.techtter.blog.scrum.model.ScrumUserRoleDTO;
-import com.techtter.blog.scrum.service.ScrumUserService;
 import com.techtter.blog.scrum.service.ScumUserRoleService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

@@ -5,7 +5,7 @@ import com.techtter.blog.scrum.model.*;
 import java.util.List;
 import java.util.Optional;
 
-public interface ScrumUserService {
+public interface UserService {
     // add new user
     User saveNewScrumUser(UserDTO UserDTO);
 
@@ -15,7 +15,7 @@ public interface ScrumUserService {
     // query user
     List<User> getAllScrumUsers();
 
-    Optional<User> getScrumUserById(Long id);
+    Optional<User> getScrumUserById(Integer id);
 
     Optional<User> getScrumUserByPhone(String phone);
 

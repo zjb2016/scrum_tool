@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name ="user")
+@Table(name ="users")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
@@ -26,7 +26,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @ApiModelProperty(position = 1)
-    private Long id;
+    private int id;
 
     @Column(name = "user_name")
     @ApiModelProperty(position = 2)
@@ -52,12 +52,8 @@ public class User {
     @ApiModelProperty(position = 6)
     private Date modifyTime;
 
-    @Column(name = "role_id")
-    @ApiModelProperty(position = 7)
-    private int roleId;
-
     @Column(name = "phone")
-    @ApiModelProperty(position = 8)
+    @ApiModelProperty(position = 7)
     private String phone;
 
 

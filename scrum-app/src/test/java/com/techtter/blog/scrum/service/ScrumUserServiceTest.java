@@ -1,8 +1,7 @@
 package com.techtter.blog.scrum.service;
 
-import com.techtter.blog.scrum.model.Scrum;
 import com.techtter.blog.scrum.model.User;
-import com.techtter.blog.scrum.repository.ScrumUserRepository;
+import com.techtter.blog.scrum.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -21,13 +18,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ScrumUserServiceTest {
 
-    ScrumUserService ScrumUserService;
+    UserService UserService;
     @Mock
-    ScrumUserRepository scrumUserRepository;
+    UserRepository userRepository;
 
     @Before
     public void init() {
-        ScrumUserService = new ScrumUserServiceImpl(scrumUserRepository);
+        UserService = new UserServiceImpl(userRepository);
     }
 
     @Test
@@ -36,14 +33,14 @@ public class ScrumUserServiceTest {
         mockScrumInDatabase(2);
 
         //when
-        List<User> users = ScrumUserService.getAllScrumUsers();
+        List<User> users = UserService.getAllScrumUsers();
 
         //then
         assertEquals(2, users.size());
     }
 
     private void mockScrumInDatabase(int scrumCount) {
-        when(scrumUserRepository.findAll())
+        when(userRepository.findAll())
                 .thenReturn(createScrumUserList(scrumCount));
     }
 
@@ -53,7 +50,7 @@ public class ScrumUserServiceTest {
         IntStream.range(0, scrumCount)
                 .forEach(number ->{
                     User user = new User();
-                    user.setId((long) number);
+                    user.setId( number);
                     user.setUserName("user " + number);
                     user.setUserPassword("user"+System.currentTimeMillis());
                     user.setPhone(""+System.currentTimeMillis());

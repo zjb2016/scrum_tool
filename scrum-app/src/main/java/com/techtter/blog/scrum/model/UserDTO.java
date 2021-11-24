@@ -14,7 +14,7 @@ import java.util.Date;
 public class UserDTO {
 
 
-    private Long id;
+    private int id;
 
     private String userName;
 
@@ -26,7 +26,7 @@ public class UserDTO {
 
     private Date modifyTime;
 
-    private int roleId;
+//    private int roleId;
 
     private String phone;
 
