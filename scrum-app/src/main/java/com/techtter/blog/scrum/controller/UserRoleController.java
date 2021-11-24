@@ -1,7 +1,7 @@
 package com.techtter.blog.scrum.controller;
 
-import com.techtter.blog.scrum.model.ScrumUser;
-import com.techtter.blog.scrum.model.ScrumUserDTO;
+import com.techtter.blog.scrum.model.User;
+import com.techtter.blog.scrum.model.UserDTO;
 import com.techtter.blog.scrum.model.ScrumUserRole;
 import com.techtter.blog.scrum.model.ScrumUserRoleDTO;
 import com.techtter.blog.scrum.service.ScrumUserService;
@@ -29,7 +29,7 @@ public class UserRoleController {
     private final ScumUserRoleService scrumUserRoleService;
 
     @PostMapping("/add")
-    @ApiOperation(value="add new role", response = ScrumUser.class)
+    @ApiOperation(value="add new role", response = User.class)
     public ResponseEntity<?> roleAdd(@RequestBody ScrumUserRoleDTO role){
         try {
             return new ResponseEntity<>(

@@ -15,12 +15,12 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name ="scrum_user")
+@Table(name ="user")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
-        scope = ScrumUser.class)
-public class ScrumUser {
+        scope = User.class)
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

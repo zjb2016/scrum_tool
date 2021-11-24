@@ -2,8 +2,8 @@ package com.techtter.blog.scrum.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.techtter.blog.scrum.model.ScrumUser;
-import com.techtter.blog.scrum.model.ScrumUserDTO;
+import com.techtter.blog.scrum.model.User;
+import com.techtter.blog.scrum.model.UserDTO;
 import com.techtter.blog.scrum.service.ScrumUserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +30,10 @@ public class UserController {
     private final ScrumUserService scrumUserService;
 
     @PostMapping("/register")
-    @ApiOperation(value="register new user", response = ScrumUser.class)
-    public ResponseEntity<?> userRegister(@RequestBody ScrumUserDTO scrumUserDTO){
+    @ApiOperation(value="register new user", response = User.class)
+    public ResponseEntity<?> userRegister(@RequestBody UserDTO UserDTO){
         try {
-            ScrumUser newuser = scrumUserService.saveNewScrumUser(scrumUserDTO);
+            User newuser = scrumUserService.saveNewScrumUser(UserDTO);
             JSONObject obj = wrapUserJsonObj(newuser);
             obj.remove("token");
             obj.remove("failureTime");
@@ -47,9 +47,9 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation(value="login user")
-    public ResponseEntity<?> userLogin(@RequestBody ScrumUserDTO scrumUserDTO){
+    public ResponseEntity<?> userLogin(@RequestBody UserDTO UserDTO){
         try {
-            ScrumUser user = scrumUserService.verifyUser(scrumUserDTO);
+            User user = scrumUserService.verifyUser(UserDTO);
             JSONObject obj = wrapUserJsonObj(user);
             ResponseEntity<JSONObject> res = new ResponseEntity<>(obj, HttpStatus.OK);
             return res;
@@ -60,7 +60,7 @@ public class UserController {
         }
     }
 
-    private JSONObject wrapUserJsonObj(ScrumUser user) {
+    private JSONObject wrapUserJsonObj(User user) {
         Date now =new Date();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", user.getId());
@@ -73,13 +73,13 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    @ApiOperation(value="modify user info", response = ScrumUser.class)
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody ScrumUserDTO scrumUserDTO){
+    @ApiOperation(value="modify user info", response = User.class)
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO UserDTO){
         try {
             //find user by old id
-            Optional<ScrumUser> optUser = scrumUserService.getScrumUserById(id);
+            Optional<User> optUser = scrumUserService.getScrumUserById(id);
             if(optUser.isPresent()){
-                return new ResponseEntity<>(scrumUserService.updateScrumUser(optUser.get(), scrumUserDTO),
+                return new ResponseEntity<>(scrumUserService.updateScrumUser(optUser.get(), UserDTO),
                         HttpStatus.OK);
             }else {
                 return noUserFoundResponse(id);
@@ -93,7 +93,7 @@ public class UserController {
     @ApiOperation(value="delete user", response = String.class)
     public ResponseEntity<?> userDeleteo(@PathVariable Long id){
         try {
-            Optional<ScrumUser> optUser = scrumUserService.getScrumUserById(id);
+            Optional<User> optUser = scrumUserService.getScrumUserById(id);
             if (optUser.isPresent()) {
                 scrumUserService.deleteScrumUser(optUser.get());
                 return new ResponseEntity<>(String.format("user with id: %d was deleted", id), HttpStatus.OK);

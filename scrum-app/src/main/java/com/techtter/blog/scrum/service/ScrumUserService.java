@@ -7,22 +7,22 @@ import java.util.Optional;
 
 public interface ScrumUserService {
     // add new user
-    ScrumUser saveNewScrumUser(ScrumUserDTO scrumUserDTO);
+    User saveNewScrumUser(UserDTO UserDTO);
 
     // delete user
-    void deleteScrumUser(ScrumUser scrumUser) ;
+    void deleteScrumUser(User User) ;
 
     // query user
-    List<ScrumUser> getAllScrumUsers();
+    List<User> getAllScrumUsers();
 
-    Optional<ScrumUser> getScrumUserById(Long id);
+    Optional<User> getScrumUserById(Long id);
 
-    Optional<ScrumUser> getScrumUserByPhone(String phone);
+    Optional<User> getScrumUserByPhone(String phone);
 
     // update user
-    ScrumUser updateScrumUser(ScrumUser oldScrumUser, ScrumUserDTO newScrumUserDTO);
+    User updateScrumUser(User oldScrumUser, UserDTO newScrumUserDTO);
 
     // verify user login
-    ScrumUser verifyUser(ScrumUserDTO queryUser);
+    User verifyUser(UserDTO queryUser);
 
 }

@@ -1,7 +1,7 @@
 package com.techtter.blog.scrum.service;
 
-import com.techtter.blog.scrum.model.ScrumUser;
-import com.techtter.blog.scrum.model.ScrumUserDTO;
+import com.techtter.blog.scrum.model.User;
+import com.techtter.blog.scrum.model.UserDTO;
 import com.techtter.blog.scrum.repository.ScrumUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,35 +21,35 @@ public class ScrumUserServiceImpl implements ScrumUserService {
 
 
     @Override
-    public ScrumUser saveNewScrumUser(ScrumUserDTO scrumUserDTO) {
+    public User saveNewScrumUser(UserDTO UserDTO) {
         log.info("save new user");
-        return scrumUserRepository.save(convertDTOToScrumUser(scrumUserDTO));
+        return scrumUserRepository.save(convertDTOToScrumUser(UserDTO));
     }
 
     @Override
-    public void deleteScrumUser(ScrumUser scrumUser) {
-        scrumUserRepository.delete(scrumUser);
+    public void deleteScrumUser(User User) {
+        scrumUserRepository.delete(User);
     }
 
     @Override
-    public List<ScrumUser> getAllScrumUsers() {
-        List<ScrumUser> scrumUserList = new ArrayList<>();
+    public List<User> getAllScrumUsers() {
+        List<User> scrumUserList = new ArrayList<>();
         scrumUserRepository.findAll().forEach(scrumUserList::add);
         return scrumUserList;
     }
 
     @Override
-    public Optional<ScrumUser> getScrumUserById(Long id) {
+    public Optional<User> getScrumUserById(Long id) {
         return scrumUserRepository.findById(id);
     }
 
     @Override
-    public Optional<ScrumUser> getScrumUserByPhone(String phone) {
+    public Optional<User> getScrumUserByPhone(String phone) {
         return scrumUserRepository.findByPhone(phone);
     }
 
     @Override
-    public ScrumUser updateScrumUser(ScrumUser oldScrumUser, ScrumUserDTO newScrumUserDTO) {
+    public User updateScrumUser(User oldScrumUser, UserDTO newScrumUserDTO) {
         oldScrumUser.setStatus(newScrumUserDTO.getStatus());
         oldScrumUser.setPhone(newScrumUserDTO.getPhone());
         oldScrumUser.setUserName(newScrumUserDTO.getUserName());
@@ -59,10 +59,10 @@ public class ScrumUserServiceImpl implements ScrumUserService {
     }
 
     @Override
-    public ScrumUser verifyUser(ScrumUserDTO queryUser) {
-        ScrumUser user;
+    public User verifyUser(UserDTO queryUser) {
+        User user;
         String queryPhone = queryUser.getPhone();
-        Optional<ScrumUser> userobj = scrumUserRepository.findByPhone(queryPhone);
+        Optional<User> userobj = scrumUserRepository.findByPhone(queryPhone);
         // 找不到直接抛出，返回http not found
         Assert.isTrue(userobj.isPresent(),"can not find user!");
 
@@ -73,13 +73,13 @@ public class ScrumUserServiceImpl implements ScrumUserService {
         return user;
     }
 
-    private ScrumUser convertDTOToScrumUser(ScrumUserDTO scrumUserDTO){
-        ScrumUser user = new ScrumUser();
-        user.setPhone(scrumUserDTO.getPhone());
-        user.setUserName(scrumUserDTO.getUserName());
-        user.setUserPassword(scrumUserDTO.getUserPassword());
-        user.setRoleId(scrumUserDTO.getRoleId());
-        user.setStatus(scrumUserDTO.getStatus());
+    private User convertDTOToScrumUser(UserDTO UserDTO){
+        User user = new User();
+        user.setPhone(UserDTO.getPhone());
+        user.setUserName(UserDTO.getUserName());
+        user.setUserPassword(UserDTO.getUserPassword());
+        user.setRoleId(UserDTO.getRoleId());
+        user.setStatus(UserDTO.getStatus());
         return user;
     }
 }

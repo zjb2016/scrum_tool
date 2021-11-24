@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScrumUserDTO {
+public class UserDTO {
 
 
     private Long id;
